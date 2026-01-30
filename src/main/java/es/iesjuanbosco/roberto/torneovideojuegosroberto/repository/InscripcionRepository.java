@@ -23,9 +23,18 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Inscri
             @Param("torneoId") Integer torneoId
     );
 
+    // Verificar si un equipo ya está inscrito en un torneo
+    @Query("SELECT CASE WHEN COUNT(i) > 0 THEN true ELSE false END " +
+            "FROM Inscripcion i " +
+            "WHERE i.equipo.id = :equipoId AND i.torneo.id = :torneoId")
+    boolean existsByEquipoIdAndTorneoId(
+            @Param("equipoId") Integer equipoId,
+            @Param("torneoId") Integer torneoId
+    );
+
     // Listar inscripciones de un torneo
     Page<Inscripcion> findByTorneoId(Integer torneoId, Pageable pageable);
 
-    // Actualizar estado de inscripción
+    // Buscar inscripción específica para actualizar/eliminar
     Optional<Inscripcion> findByJugadorIdAndTorneoId(Integer jugadorId, Integer torneoId);
 }

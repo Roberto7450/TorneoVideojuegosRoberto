@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Panel de Administración - Torneo Videojuegos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6C63FF, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(108, 99, 255, 0.2);
+            border: 2px solid #6C63FF;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(108, 99, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: #6C63FF;
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section h2 {
+            color: #00d9ff;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #6C63FF;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 15, 30, 0.8);
+            border: 2px solid #6C63FF;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6C63FF, #00d9ff);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.5);
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: rgba(15, 15, 30, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: #6C63FF;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(108, 99, 255, 0.2);
+        }
+
+        .data-table tr:hover {
+            background: rgba(108, 99, 255, 0.1);
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s;
+        }
+
+        .alert-success {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .alert-error {
+            background: rgba(244, 67, 54, 0.2);
+            border-left: 4px solid #f44336;
+            color: #f44336;
+        }
+
+        .alert-info {
+            background: rgba(33, 150, 243, 0.2);
+            border-left: 4px solid #2196F3;
+            color: #2196F3;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #00d9ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .badge-confirmada {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge-pendiente {
+            background: #ff9800;
+            color: white;
+        }
+
+        .badge-cancelada {
+            background: #f44336;
+            color: white;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+        }
+
+        .pagination {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            background: rgba(108, 99, 255, 0.2);
+            border: 2px solid #6C63FF;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 Panel de Administración</h1>
+        <p>Gestión de Torneos de Videojuegos</p>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('juegos')">🎯 Juegos</button>
+        <button class="tab-btn" onclick="switchTab('torneos')">🏆 Torneos</button>
+        <button class="tab-btn" onclick="switchTab('equipos')">👥 Equipos</button>
+        <button class="tab-btn" onclick="switchTab('jugadores')">🎮 Jugadores</button>
+        <button class="tab-btn" onclick="switchTab('inscripciones')">📝 Inscripciones</button>
+        <button class="tab-btn" onclick="switchTab('resultados')">🏅 Resultados</button>
+    </div>
+
+    <div id="messages"></div>
+
+    <!-- TAB: JUEGOS -->
+    <div id="juegos-tab" class="tab-content active">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Crear/Editar Juego</h2>
+                <form id="juego-form">
+                    <input type="hidden" id="juego-id">
+                    <div class="form-group">
+                        <label>Nombre del Juego *</label>
+                        <input type="text" id="juego-nombre" required minlength="2" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Género *</label>
+                        <input type="text" id="juego-genero" required minlength="2" maxlength="100" placeholder="Ej: FPS, MOBA, Battle Royale">
+                    </div>
+                    <div class="form-group">
+                        <label>Desarrollador *</label>
+                        <input type="text" id="juego-desarrollador" required minlength="2" maxlength="100" placeholder="Ej: Riot Games, Valve">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Salida *</label>
+                        <input type="date" id="juego-fecha-salida" required max="2026-01-29">
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Juego</button>
+                    <button type="button" class="btn btn-warning" onclick="resetJuegoForm()">🔄 Limpiar</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>📋 Lista de Juegos</h2>
+                <div id="juegos-list" class="loading">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: TORNEOS -->
+    <div id="torneos-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Crear/Editar Torneo</h2>
+                <form id="torneo-form">
+                    <input type="hidden" id="torneo-id">
+                    <div class="form-group">
+                        <label>Nombre del Torneo *</label>
+                        <input type="text" id="torneo-nombre" required minlength="5" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="torneo-descripcion" maxlength="500"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Juego *</label>
+                        <select id="torneo-juego" required>
+                            <option value="">Seleccione un juego</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio *</label>
+                        <input type="date" id="torneo-fecha-inicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Finalización *</label>
+                        <input type="date" id="torneo-fecha-final" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Máximo de Equipos *</label>
+                        <input type="number" id="torneo-max-equipos" required min="2" max="128">
+                    </div>
+                    <div class="form-group">
+                        <label>Miembros por Equipo *</label>
+                        <input type="number" id="torneo-miembros-equipo" required min="1" max="10">
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Torneo</button>
+                    <button type="button" class="btn btn-warning" onclick="resetTorneoForm()">🔄 Limpiar</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>🏆 Lista de Torneos</h2>
+                <div id="torneos-list" class="loading">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: EQUIPOS -->
+    <div id="equipos-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Crear/Editar Equipo</h2>
+                <form id="equipo-form">
+                    <input type="hidden" id="equipo-id">
+                    <div class="form-group">
+                        <label>Nombre del Equipo *</label>
+                        <input type="text" id="equipo-nombre" required minlength="3" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Logo URL</label>
+                        <input type="url" id="equipo-logo" maxlength="255" placeholder="https://...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Equipo</button>
+                    <button type="button" class="btn btn-warning" onclick="resetEquipoForm()">🔄 Limpiar</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>👥 Lista de Equipos</h2>
+                <div id="equipos-list" class="loading">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: JUGADORES -->
+    <div id="jugadores-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Crear/Editar Jugador</h2>
+                <form id="jugador-form">
+                    <input type="hidden" id="jugador-id">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="jugador-nombre" required minlength="2" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Nickname *</label>
+                        <input type="text" id="jugador-nickname" required minlength="3" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="jugador-email" required maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento *</label>
+                        <input type="date" id="jugador-fecha-nacimiento" required max="2026-01-29">
+                    </div>
+                    <div class="form-group">
+                        <label>País *</label>
+                        <input type="text" id="jugador-pais" required minlength="2" maxlength="100" placeholder="Ej: España, México">
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Jugador</button>
+                    <button type="button" class="btn btn-warning" onclick="resetJugadorForm()">🔄 Limpiar</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>🎮 Lista de Jugadores</h2>
+                <div id="jugadores-list" class="loading">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: INSCRIPCIONES -->
+    <div id="inscripciones-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Nueva Inscripción</h2>
+                <form id="inscripcion-form">
+                    <div class="form-group">
+                        <label>Torneo *</label>
+                        <select id="inscripcion-torneo" required onchange="loadInscripciones()">
+                            <option value="">Seleccione un torneo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Jugador *</label>
+                        <select id="inscripcion-jugador" required>
+                            <option value="">Seleccione un jugador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Equipo (opcional)</label>
+                        <select id="inscripcion-equipo">
+                            <option value="">Sin equipo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">✅ Inscribir</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>📝 Inscripciones del Torneo</h2>
+                <div id="inscripciones-list" class="alert alert-info">
+                    Seleccione un torneo para ver sus inscripciones
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: RESULTADOS -->
+    <div id="resultados-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="section">
+                <h2>➕ Registrar Resultado</h2>
+                <form id="resultado-form">
+                    <div class="form-group">
+                        <label>Torneo *</label>
+                        <select id="resultado-torneo" required onchange="loadRanking()">
+                            <option value="">Seleccione un torneo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Equipo *</label>
+                        <select id="resultado-equipo" required>
+                            <option value="">Seleccione un equipo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Posición *</label>
+                        <input type="number" id="resultado-posicion" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Puntuación *</label>
+                        <input type="number" id="resultado-puntuacion" required min="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Resultado</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>🏅 Ranking del Torneo</h2>
+                <div id="ranking-list" class="alert alert-info">
+                    Seleccione un torneo para ver el ranking
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api';
+        let currentPage = 0;
+        const pageSize = 20;
+
+        // ==================== UTILIDADES ====================
+        function showMessage(message, type = 'success') {
+            const messagesDiv = document.getElementById('messages');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            messagesDiv.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function switchTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar el tab seleccionado
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            event.target.classList.add('active');
+
+            // Cargar datos según el tab
+            switch(tabName) {
+                case 'juegos': loadJuegos(); break;
+                case 'torneos': loadTorneos(); loadJuegosForSelect(); break;
+                case 'equipos': loadEquipos(); break;
+                case 'jugadores': loadJugadores(); break;
+                case 'inscripciones':
+                    loadTorneosForSelect();
+                    loadJugadoresForSelect();
+                    loadEquiposForInscripcion();
+                    break;
+                case 'resultados':
+                    loadTorneosForResultado();
+                    loadEquiposForResultado();
+                    break;
+            }
+        }
+
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(`${API_URL}${url}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Error en la petición');
+                }
+
+                if (response.status === 204) {
+                    return null;
+                }
+
+                return await response.json();
+            } catch (error) {
+                showMessage(error.message, 'error');
+                throw error;
+            }
+        }
+
+        // ==================== JUEGOS ====================
+        async function loadJuegos() {
+            try {
+                const data = await apiCall(`/juegos?page=${currentPage}&size=${pageSize}`);
+                const list = document.getElementById('juegos-list');
+
+                if (data.content.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay juegos registrados</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Género</th>
+                                <th>Desarrollador</th>
+                                <th>Fecha Salida</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.content.map(juego => `
+                                <tr>
+                                    <td>${juego.id}</td>
+                                    <td><strong>${juego.nombre}</strong></td>
+                                    <td>${juego.genero || '-'}</td>
+                                    <td>${juego.desarrollador || '-'}</td>
+                                    <td>${juego.fechaSalida || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-small" onclick="editJuego(${juego.id})">✏️ Editar</button>
+                                        <button class="btn btn-danger btn-small" onclick="deleteJuego(${juego.id})">🗑️ Eliminar</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('juegos-list').innerHTML = '<p class="alert alert-error">Error al cargar juegos</p>';
+            }
+        }
+
+        document.getElementById('juego-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('juego-id').value;
+            const data = {
+                nombre: document.getElementById('juego-nombre').value,
+                genero: document.getElementById('juego-genero').value,
+                desarrollador: document.getElementById('juego-desarrollador').value,
+                fechaSalida: document.getElementById('juego-fecha-salida').value
+            };
+
+            try {
+                if (id) {
+                    await apiCall(`/juegos/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                    showMessage('Juego actualizado correctamente');
+                } else {
+                    await apiCall('/juegos', { method: 'POST', body: JSON.stringify(data) });
+                    showMessage('Juego creado correctamente');
+                }
+                resetJuegoForm();
+                loadJuegos();
+            } catch (error) {
+                // Error ya mostrado en apiCall
+            }
+        });
+
+        async function editJuego(id) {
+            try {
+                const juego = await apiCall(`/juegos/${id}`);
+                document.getElementById('juego-id').value = juego.id;
+                document.getElementById('juego-nombre').value = juego.nombre;
+                document.getElementById('juego-genero').value = juego.genero || '';
+                document.getElementById('juego-desarrollador').value = juego.desarrollador || '';
+                document.getElementById('juego-fecha-salida').value = juego.fechaSalida || '';
+                window.scrollTo(0, 0);
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function deleteJuego(id) {
+            if (!confirm('¿Está seguro de eliminar este juego?')) return;
+
+            try {
+                await apiCall(`/juegos/${id}`, { method: 'DELETE' });
+                showMessage('Juego eliminado correctamente');
+                loadJuegos();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        function resetJuegoForm() {
+            document.getElementById('juego-form').reset();
+            document.getElementById('juego-id').value = '';
+        }
+
+        // ==================== TORNEOS ====================
+        async function loadTorneos() {
+            try {
+                const data = await apiCall(`/torneos?page=${currentPage}&size=${pageSize}`);
+                const list = document.getElementById('torneos-list');
+
+                if (data.content.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay torneos registrados</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Juego</th>
+                                <th>Fechas</th>
+                                <th>Max Equipos</th>
+                                <th>Miembros/Equipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.content.map(torneo => `
+                                <tr>
+                                    <td>${torneo.id}</td>
+                                    <td><strong>${torneo.nombre}</strong></td>
+                                    <td>${torneo.juego ? torneo.juego.nombre : '-'}</td>
+                                    <td>${torneo.fechaInicio} / ${torneo.fechaFinal}</td>
+                                    <td>${torneo.maxEquipos || '-'}</td>
+                                    <td>${torneo.miembrosPorEquipo || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-small" onclick="editTorneo(${torneo.id})">✏️ Editar</button>
+                                        <button class="btn btn-danger btn-small" onclick="deleteTorneo(${torneo.id})">🗑️ Eliminar</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('torneos-list').innerHTML = '<p class="alert alert-error">Error al cargar torneos</p>';
+            }
+        }
+
+        async function loadJuegosForSelect() {
+            try {
+                const data = await apiCall('/juegos?page=0&size=100');
+                const select = document.getElementById('torneo-juego');
+                select.innerHTML = '<option value="">Seleccione un juego</option>' +
+                    data.content.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        document.getElementById('torneo-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('torneo-id').value;
+            const data = {
+                nombre: document.getElementById('torneo-nombre').value,
+                descripcion: document.getElementById('torneo-descripcion').value || null,
+                juegoId: parseInt(document.getElementById('torneo-juego').value),
+                fechaInicio: document.getElementById('torneo-fecha-inicio').value,
+                fechaFinal: document.getElementById('torneo-fecha-final').value,
+                maxEquipos: parseInt(document.getElementById('torneo-max-equipos').value),
+                miembrosPorEquipo: parseInt(document.getElementById('torneo-miembros-equipo').value)
+            };
+
+            try {
+                if (id) {
+                    await apiCall(`/torneos/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                    showMessage('Torneo actualizado correctamente');
+                } else {
+                    await apiCall('/torneos', { method: 'POST', body: JSON.stringify(data) });
+                    showMessage('Torneo creado correctamente');
+                }
+                resetTorneoForm();
+                loadTorneos();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        });
+
+        async function editTorneo(id) {
+            try {
+                const torneo = await apiCall(`/torneos/${id}`);
+                document.getElementById('torneo-id').value = torneo.id;
+                document.getElementById('torneo-nombre').value = torneo.nombre;
+                document.getElementById('torneo-descripcion').value = torneo.descripcion || '';
+                document.getElementById('torneo-juego').value = torneo.juego ? torneo.juego.id : '';
+                document.getElementById('torneo-fecha-inicio').value = torneo.fechaInicio;
+                document.getElementById('torneo-fecha-final').value = torneo.fechaFinal;
+                document.getElementById('torneo-max-equipos').value = torneo.maxEquipos || '';
+                document.getElementById('torneo-miembros-equipo').value = torneo.miembrosPorEquipo || '';
+                window.scrollTo(0, 0);
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function deleteTorneo(id) {
+            if (!confirm('¿Está seguro de eliminar este torneo?')) return;
+
+            try {
+                await apiCall(`/torneos/${id}`, { method: 'DELETE' });
+                showMessage('Torneo eliminado correctamente');
+                loadTorneos();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        function resetTorneoForm() {
+            document.getElementById('torneo-form').reset();
+            document.getElementById('torneo-id').value = '';
+        }
+
+        // ==================== EQUIPOS ====================
+        async function loadEquipos() {
+            try {
+                const data = await apiCall(`/equipos?page=${currentPage}&size=${pageSize}`);
+                const list = document.getElementById('equipos-list');
+
+                if (data.content.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay equipos registrados</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Miembros</th>
+                                <th>Fecha Creación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.content.map(equipo => `
+                                <tr>
+                                    <td>${equipo.id}</td>
+                                    <td><strong>${equipo.nombre}</strong></td>
+                                    <td>${equipo.cantidadMiembros || 0}</td>
+                                    <td>${equipo.fechaCreacion || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-small" onclick="editEquipo(${equipo.id})">✏️ Editar</button>
+                                        <button class="btn btn-danger btn-small" onclick="deleteEquipo(${equipo.id})">🗑️ Eliminar</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('equipos-list').innerHTML = '<p class="alert alert-error">Error al cargar equipos</p>';
+            }
+        }
+
+        document.getElementById('equipo-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('equipo-id').value;
+            const data = {
+                nombre: document.getElementById('equipo-nombre').value,
+                logoUrl: document.getElementById('equipo-logo').value || null
+            };
+
+            try {
+                if (id) {
+                    await apiCall(`/equipos/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                    showMessage('Equipo actualizado correctamente');
+                } else {
+                    await apiCall('/equipos', { method: 'POST', body: JSON.stringify(data) });
+                    showMessage('Equipo creado correctamente');
+                }
+                resetEquipoForm();
+                loadEquipos();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        });
+
+        async function editEquipo(id) {
+            try {
+                const equipo = await apiCall(`/equipos/${id}`);
+                document.getElementById('equipo-id').value = equipo.id;
+                document.getElementById('equipo-nombre').value = equipo.nombre;
+                document.getElementById('equipo-logo').value = equipo.logoUrl || '';
+                window.scrollTo(0, 0);
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function deleteEquipo(id) {
+            if (!confirm('¿Está seguro de eliminar este equipo?')) return;
+
+            try {
+                await apiCall(`/equipos/${id}`, { method: 'DELETE' });
+                showMessage('Equipo eliminado correctamente');
+                loadEquipos();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        function resetEquipoForm() {
+            document.getElementById('equipo-form').reset();
+            document.getElementById('equipo-id').value = '';
+        }
+
+        // ==================== JUGADORES ====================
+        async function loadJugadores() {
+            try {
+                const data = await apiCall(`/jugadores?page=${currentPage}&size=${pageSize}`);
+                const list = document.getElementById('jugadores-list');
+
+                if (data.content.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay jugadores registrados</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nickname</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>País</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.content.map(jugador => `
+                                <tr>
+                                    <td>${jugador.id}</td>
+                                    <td><strong>${jugador.nickname}</strong></td>
+                                    <td>${jugador.nombre || '-'}</td>
+                                    <td>${jugador.email}</td>
+                                    <td>${jugador.pais || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-small" onclick="editJugador(${jugador.id})">✏️ Editar</button>
+                                        <button class="btn btn-danger btn-small" onclick="deleteJugador(${jugador.id})">🗑️ Eliminar</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('jugadores-list').innerHTML = '<p class="alert alert-error">Error al cargar jugadores</p>';
+            }
+        }
+
+        document.getElementById('jugador-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('jugador-id').value;
+
+            const data = {
+                nombre: document.getElementById('jugador-nombre').value,
+                nickname: document.getElementById('jugador-nickname').value,
+                email: document.getElementById('jugador-email').value,
+                fechaNacimiento: document.getElementById('jugador-fecha-nacimiento').value,
+                pais: document.getElementById('jugador-pais').value
+            };
+
+            try {
+                if (id) {
+                    await apiCall(`/jugadores/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                    showMessage('Jugador actualizado correctamente');
+                } else {
+                    await apiCall('/jugadores', { method: 'POST', body: JSON.stringify(data) });
+                    showMessage('Jugador creado correctamente');
+                }
+                resetJugadorForm();
+                loadJugadores();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        });
+
+        async function editJugador(id) {
+            try {
+                const jugador = await apiCall(`/jugadores/${id}`);
+                document.getElementById('jugador-id').value = jugador.id;
+                document.getElementById('jugador-nombre').value = jugador.nombre || '';
+                document.getElementById('jugador-nickname').value = jugador.nickname;
+                document.getElementById('jugador-email').value = jugador.email;
+                document.getElementById('jugador-fecha-nacimiento').value = jugador.fechaNacimiento || '';
+                document.getElementById('jugador-pais').value = jugador.pais || '';
+                window.scrollTo(0, 0);
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function deleteJugador(id) {
+            if (!confirm('¿Está seguro de eliminar este jugador?')) return;
+
+            try {
+                await apiCall(`/jugadores/${id}`, { method: 'DELETE' });
+                showMessage('Jugador eliminado correctamente');
+                loadJugadores();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        function resetJugadorForm() {
+            document.getElementById('jugador-form').reset();
+            document.getElementById('jugador-id').value = '';
+        }
+
+        // ==================== INSCRIPCIONES ====================
+        async function loadTorneosForSelect() {
+            try {
+                const data = await apiCall('/torneos?page=0&size=100');
+                const select = document.getElementById('inscripcion-torneo');
+                select.innerHTML = '<option value="">Seleccione un torneo</option>' +
+                    data.content.map(t => `<option value="${t.id}">${t.nombre}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function loadJugadoresForSelect() {
+            try {
+                const data = await apiCall('/jugadores?page=0&size=100');
+                const select = document.getElementById('inscripcion-jugador');
+                select.innerHTML = '<option value="">Seleccione un jugador</option>' +
+                    data.content.map(j => `<option value="${j.id}">${j.nickname}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function loadEquiposForInscripcion() {
+            try {
+                const data = await apiCall('/equipos?page=0&size=100');
+                const select = document.getElementById('inscripcion-equipo');
+                select.innerHTML = '<option value="">Sin equipo</option>' +
+                    data.content.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function loadInscripciones() {
+            const torneoId = document.getElementById('inscripcion-torneo').value;
+            if (!torneoId) {
+                document.getElementById('inscripciones-list').innerHTML =
+                    '<p class="alert alert-info">Seleccione un torneo para ver sus inscripciones</p>';
+                return;
+            }
+
+            try {
+                const data = await apiCall(`/inscripciones/torneo/${torneoId}?page=0&size=100`);
+                const list = document.getElementById('inscripciones-list');
+
+                if (data.content.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay inscripciones para este torneo</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Equipo</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.content.map(ins => `
+                                <tr>
+                                    <td><strong>${ins.jugadorNickname}</strong></td>
+                                    <td>${ins.equipoNombre || 'Sin equipo'}</td>
+                                    <td><span class="badge badge-${ins.estado.toLowerCase()}">${ins.estado}</span></td>
+                                    <td>${ins.fechaInscripcion}</td>
+                                    <td>
+                                        <select onchange="cambiarEstadoInscripcion(${ins.jugadorId}, ${ins.torneoId}, this.value)">
+                                            <option value="">Cambiar estado</option>
+                                            <option value="CONFIRMADA">CONFIRMADA</option>
+                                            <option value="PENDIENTE">PENDIENTE</option>
+                                            <option value="CANCELADA">CANCELADA</option>
+                                        </select>
+                                        <button class="btn btn-danger btn-small" onclick="deleteInscripcion(${ins.jugadorId}, ${ins.torneoId})">🗑️</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('inscripciones-list').innerHTML = '<p class="alert alert-error">Error al cargar inscripciones</p>';
+            }
+        }
+
+        document.getElementById('inscripcion-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const equipoId = document.getElementById('inscripcion-equipo').value;
+
+            const data = {
+                jugadorId: parseInt(document.getElementById('inscripcion-jugador').value),
+                torneoId: parseInt(document.getElementById('inscripcion-torneo').value),
+                equipoId: equipoId ? parseInt(equipoId) : null
+            };
+
+            try {
+                await apiCall('/inscripciones', { method: 'POST', body: JSON.stringify(data) });
+                showMessage('Inscripción creada correctamente');
+                document.getElementById('inscripcion-form').reset();
+                loadInscripciones();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        });
+
+        async function cambiarEstadoInscripcion(jugadorId, torneoId, estado) {
+            if (!estado) return;
+
+            try {
+                await apiCall(`/inscripciones/${jugadorId}/${torneoId}/estado?estado=${estado}`,
+                    { method: 'PATCH' });
+                showMessage('Estado actualizado correctamente');
+                loadInscripciones();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function deleteInscripcion(jugadorId, torneoId) {
+            if (!confirm('¿Está seguro de eliminar esta inscripción?')) return;
+
+            try {
+                await apiCall(`/inscripciones/${jugadorId}/${torneoId}`, { method: 'DELETE' });
+                showMessage('Inscripción eliminada correctamente');
+                loadInscripciones();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        // ==================== RESULTADOS ====================
+        async function loadTorneosForResultado() {
+            try {
+                const data = await apiCall('/torneos?page=0&size=100');
+                const select = document.getElementById('resultado-torneo');
+                select.innerHTML = '<option value="">Seleccione un torneo</option>' +
+                    data.content.map(t => `<option value="${t.id}">${t.nombre}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function loadEquiposForResultado() {
+            try {
+                const data = await apiCall('/equipos?page=0&size=100');
+                const select = document.getElementById('resultado-equipo');
+                select.innerHTML = '<option value="">Seleccione un equipo</option>' +
+                    data.content.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('');
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        async function loadRanking() {
+            const torneoId = document.getElementById('resultado-torneo').value;
+            if (!torneoId) {
+                document.getElementById('ranking-list').innerHTML =
+                    '<p class="alert alert-info">Seleccione un torneo para ver el ranking</p>';
+                return;
+            }
+
+            try {
+                const data = await apiCall(`/resultados/torneo/${torneoId}/ranking`);
+                const list = document.getElementById('ranking-list');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="alert alert-info">No hay resultados para este torneo</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Equipo</th>
+                                <th>Puntuación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.map(res => `
+                                <tr>
+                                    <td><strong>${res.posicion}º</strong></td>
+                                    <td>${res.equipoNombre}</td>
+                                    <td>${res.puntuacion || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-small" onclick="deleteResultado(${res.equipoId}, ${res.torneoId})">🗑️ Eliminar</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                document.getElementById('ranking-list').innerHTML = '<p class="alert alert-error">Error al cargar ranking</p>';
+            }
+        }
+
+        document.getElementById('resultado-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                equipoId: parseInt(document.getElementById('resultado-equipo').value),
+                torneoId: parseInt(document.getElementById('resultado-torneo').value),
+                posicion: parseInt(document.getElementById('resultado-posicion').value),
+                puntuacion: parseInt(document.getElementById('resultado-puntuacion').value)
+            };
+
+            try {
+                await apiCall('/resultados', { method: 'POST', body: JSON.stringify(data) });
+                showMessage('Resultado registrado correctamente');
+                document.getElementById('resultado-form').reset();
+                loadRanking();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        });
+
+        async function deleteResultado(equipoId, torneoId) {
+            if (!confirm('¿Está seguro de eliminar este resultado?')) return;
+
+            try {
+                await apiCall(`/resultados/${equipoId}/${torneoId}`, { method: 'DELETE' });
+                showMessage('Resultado eliminado correctamente');
+                loadRanking();
+            } catch (error) {
+                // Error ya mostrado
+            }
+        }
+
+        // ==================== INICIALIZACIÓN ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJuegos();
+        });
+    </script>
+</body>
+</html>
+

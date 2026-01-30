@@ -1,7 +1,6 @@
 package es.iesjuanbosco.roberto.torneovideojuegosroberto.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.enums.EstadoInscripcion;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,13 +33,11 @@ public class Inscripcion {
     @JoinColumn(name = "equipo_id")
     private Equipo equipo;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "fecha_inscripcion", nullable = false, updatable = false)
     private LocalDateTime fechaInscripcion;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 20, nullable = false)
-    private EstadoInscripcion estado = EstadoInscripcion.CONFIRMADA;
+    private EstadoInscripcion estado;
 }

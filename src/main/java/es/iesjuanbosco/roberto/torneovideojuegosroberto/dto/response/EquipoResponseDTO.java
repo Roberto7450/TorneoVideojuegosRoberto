@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ public class EquipoResponseDTO {
     private Integer id;
     private String nombre;
     private String logoUrl;
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
     private Integer cantidadMiembros;
     private List<JugadorSimpleDTO> miembros;
 }

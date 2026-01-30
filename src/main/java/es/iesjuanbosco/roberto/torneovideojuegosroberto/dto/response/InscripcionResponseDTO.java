@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +20,6 @@ public class InscripcionResponseDTO {
     private String torneoNombre;
     private Integer equipoId;
     private String equipoNombre;
-    private LocalDateTime fechaInscripcion;
+    private LocalDate fechaInscripcion;
     private EstadoInscripcion estado; // CONFIRMADA, ELIMINADA, FINALIZADA
 }
