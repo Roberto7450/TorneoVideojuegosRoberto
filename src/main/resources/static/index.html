@@ -297,6 +297,108 @@
         .search-bar input {
             flex: 1;
         }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.2) 0%, rgba(0, 217, 255, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #6C63FF;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
+        }
+
+        .stat-card h3 {
+            color: #00d9ff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6C63FF, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 46, 0.98);
+            margin: 5% auto;
+            padding: 2rem;
+            border: 2px solid #6C63FF;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #6C63FF;
+            padding-bottom: 1rem;
+        }
+
+        .close-btn {
+            color: #f44336;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem;
+            border-bottom: 1px solid rgba(108, 99, 255, 0.2);
+        }
+
+        .detail-row label {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .detail-row span {
+            color: #e6e6e6;
+        }
     </style>
 </head>
 <body>
@@ -306,7 +408,8 @@
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('juegos')">🎯 Juegos</button>
+        <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('juegos')">🎯 Juegos</button>
         <button class="tab-btn" onclick="switchTab('torneos')">🏆 Torneos</button>
         <button class="tab-btn" onclick="switchTab('equipos')">👥 Equipos</button>
         <button class="tab-btn" onclick="switchTab('jugadores')">🎮 Jugadores</button>
@@ -316,8 +419,45 @@
 
     <div id="messages"></div>
 
+    <!-- TAB: DASHBOARD -->
+    <div id="dashboard-tab" class="tab-content active">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <h3>Total Juegos</h3>
+                <div class="stat-value" id="stat-juegos">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <h3>Torneos Activos</h3>
+                <div class="stat-value" id="stat-torneos">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <h3>Equipos Registrados</h3>
+                <div class="stat-value" id="stat-equipos">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <h3>Jugadores Totales</h3>
+                <div class="stat-value" id="stat-jugadores">0</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="section">
+                <h2>🏆 Torneos Recientes</h2>
+                <div id="torneos-recientes" class="loading">Cargando...</div>
+            </div>
+            <div class="section">
+                <h2>⭐ Últimos Registros</h2>
+                <div id="ultimos-registros" class="loading">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
     <!-- TAB: JUEGOS -->
-    <div id="juegos-tab" class="tab-content active">
+    <div id="juegos-tab" class="tab-content">
         <div class="grid-2">
             <div class="section">
                 <h2>➕ Crear/Editar Juego</h2>
@@ -346,7 +486,11 @@
 
             <div class="section">
                 <h2>📋 Lista de Juegos</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-juegos" placeholder="🔍 Buscar juegos..." onkeyup="filterJuegos()">
+                </div>
                 <div id="juegos-list" class="loading">Cargando...</div>
+                <div class="pagination" id="juegos-pagination"></div>
             </div>
         </div>
     </div>
@@ -395,7 +539,11 @@
 
             <div class="section">
                 <h2>🏆 Lista de Torneos</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-torneos" placeholder="🔍 Buscar torneos..." onkeyup="filterTorneos()">
+                </div>
                 <div id="torneos-list" class="loading">Cargando...</div>
+                <div class="pagination" id="torneos-pagination"></div>
             </div>
         </div>
     </div>
@@ -422,7 +570,11 @@
 
             <div class="section">
                 <h2>👥 Lista de Equipos</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-equipos" placeholder="🔍 Buscar equipos..." onkeyup="filterEquipos()">
+                </div>
                 <div id="equipos-list" class="loading">Cargando...</div>
+                <div class="pagination" id="equipos-pagination"></div>
             </div>
         </div>
     </div>
@@ -461,7 +613,11 @@
 
             <div class="section">
                 <h2>🎮 Lista de Jugadores</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-jugadores" placeholder="🔍 Buscar jugadores..." onkeyup="filterJugadores()">
+                </div>
                 <div id="jugadores-list" class="loading">Cargando...</div>
+                <div class="pagination" id="jugadores-pagination"></div>
             </div>
         </div>
     </div>
@@ -509,6 +665,7 @@
             <div class="section">
                 <h2>➕ Registrar Resultado</h2>
                 <form id="resultado-form">
+                    <input type="hidden" id="resultado-editando">
                     <div class="form-group">
                         <label>Torneo *</label>
                         <select id="resultado-torneo" required onchange="loadRanking()">
@@ -530,6 +687,7 @@
                         <input type="number" id="resultado-puntuacion" required min="0">
                     </div>
                     <button type="submit" class="btn btn-primary">💾 Guardar Resultado</button>
+                    <button type="button" class="btn btn-warning" onclick="resetResultadoForm()">🔄 Cancelar</button>
                 </form>
             </div>
 
@@ -542,10 +700,21 @@
         </div>
     </div>
 
+    <!-- MODAL DE DETALLES -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Detalles</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
     <script>
         const API_URL = '/api';
         let currentPage = 0;
-        const pageSize = 20;
+        const pageSize = 100;
 
         // ==================== UTILIDADES ====================
         function showMessage(message, type = 'success') {
@@ -573,8 +742,12 @@
             document.getElementById(`${tabName}-tab`).classList.add('active');
             event.target.classList.add('active');
 
+            // Resetear currentPage al cambiar de tab
+            currentPage = 0;
+
             // Cargar datos según el tab
             switch(tabName) {
+                case 'dashboard': loadDashboard(); break;
                 case 'juegos': loadJuegos(); break;
                 case 'torneos': loadTorneos(); loadJuegosForSelect(); break;
                 case 'equipos': loadEquipos(); break;
@@ -617,48 +790,352 @@
             }
         }
 
+        // ==================== DASHBOARD ====================
+        async function loadDashboard() {
+            try {
+                // Cargar estadísticas
+                const [juegos, torneos, equipos, jugadores] = await Promise.all([
+                    apiCall('/juegos?page=0&size=1'),
+                    apiCall('/torneos?page=0&size=1'),
+                    apiCall('/equipos?page=0&size=1'),
+                    apiCall('/jugadores?page=0&size=1')
+                ]);
+
+                document.getElementById('stat-juegos').textContent = juegos.totalElements || 0;
+                document.getElementById('stat-torneos').textContent = torneos.totalElements || 0;
+                document.getElementById('stat-equipos').textContent = equipos.totalElements || 0;
+                document.getElementById('stat-jugadores').textContent = jugadores.totalElements || 0;
+
+                // Cargar torneos recientes (ordenados por ID descendente para obtener los más recientes)
+                const torneosRecientes = await apiCall('/torneos?page=0&size=5&sort=id,desc');
+                const torneosDiv = document.getElementById('torneos-recientes');
+
+                if (torneosRecientes.content.length === 0) {
+                    torneosDiv.innerHTML = '<p class="alert alert-info">No hay torneos registrados</p>';
+                } else {
+                    torneosDiv.innerHTML = '<ul style="list-style: none; padding: 0;">' +
+                        torneosRecientes.content.map(t => `
+                            <li style="padding: 0.8rem; border-bottom: 1px solid rgba(108, 99, 255, 0.2);">
+                                <strong style="color: #00d9ff;">${t.nombre}</strong><br>
+                                <small>🎯 ${t.juego ? t.juego.nombre : 'N/A'} | 📅 ${t.fechaInicio} - ${t.fechaFinal}</small>
+                            </li>
+                        `).join('') + '</ul>';
+                }
+
+                // Cargar últimos jugadores (ordenados por ID descendente para obtener los más recientes)
+                const ultimosJugadores = await apiCall('/jugadores?page=0&size=5&sort=id,desc');
+                const registrosDiv = document.getElementById('ultimos-registros');
+
+                if (ultimosJugadores.content.length === 0) {
+                    registrosDiv.innerHTML = '<p class="alert alert-info">No hay jugadores registrados</p>';
+                } else {
+                    registrosDiv.innerHTML = '<ul style="list-style: none; padding: 0;">' +
+                        ultimosJugadores.content.map(j => `
+                            <li style="padding: 0.8rem; border-bottom: 1px solid rgba(108, 99, 255, 0.2);">
+                                <strong style="color: #00d9ff;">${j.nickname}</strong><br>
+                                <small>👤 ${j.nombre || 'N/A'} | 🌍 ${j.pais || 'N/A'}</small>
+                            </li>
+                        `).join('') + '</ul>';
+                }
+            } catch (error) {
+                console.error('Error cargando dashboard:', error);
+            }
+        }
+
+        // ==================== MODAL ====================
+        function openModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // ==================== FILTROS ====================
+        let allJuegos = [];
+        let allEquipos = [];
+        let allJugadores = [];
+        let allTorneos = [];
+
+        function filterJuegos() {
+            const search = document.getElementById('search-juegos').value.toLowerCase();
+            const filtered = allJuegos.filter(j =>
+                j.nombre.toLowerCase().includes(search) ||
+                (j.genero && j.genero.toLowerCase().includes(search)) ||
+                (j.desarrollador && j.desarrollador.toLowerCase().includes(search))
+            );
+            displayJuegos(filtered);
+        }
+
+        function filterEquipos() {
+            const search = document.getElementById('search-equipos').value.toLowerCase();
+            const filtered = allEquipos.filter(e =>
+                e.nombre.toLowerCase().includes(search)
+            );
+            displayEquipos(filtered);
+        }
+
+        function filterJugadores() {
+            const search = document.getElementById('search-jugadores').value.toLowerCase();
+            const filtered = allJugadores.filter(j =>
+                j.nickname.toLowerCase().includes(search) ||
+                (j.nombre && j.nombre.toLowerCase().includes(search)) ||
+                (j.email && j.email.toLowerCase().includes(search)) ||
+                (j.pais && j.pais.toLowerCase().includes(search))
+            );
+            displayJugadores(filtered);
+        }
+
+        function filterTorneos() {
+            const search = document.getElementById('search-torneos').value.toLowerCase();
+            const filtered = allTorneos.filter(t =>
+                t.nombre.toLowerCase().includes(search) ||
+                (t.descripcion && t.descripcion.toLowerCase().includes(search)) ||
+                (t.juego && t.juego.nombre.toLowerCase().includes(search))
+            );
+            displayTorneos(filtered);
+        }
+
+        // ==================== PAGINACIÓN ====================
+        let pageInfo = {
+            juegos: { current: 0, total: 0 },
+            torneos: { current: 0, total: 0 },
+            equipos: { current: 0, total: 0 },
+            jugadores: { current: 0, total: 0 }
+        };
+
+        function renderPagination(type, currentPage, totalPages) {
+            const paginationDiv = document.getElementById(`${type}-pagination`);
+            if (totalPages <= 1) {
+                paginationDiv.innerHTML = '';
+                return;
+            }
+
+            pageInfo[type] = { current: currentPage, total: totalPages };
+
+            let html = `
+                <button onclick="changePage('${type}', 0)" ${currentPage === 0 ? 'disabled' : ''}>⏮️ Primera</button>
+                <button onclick="changePage('${type}', ${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>◀️ Anterior</button>
+                <span style="color: #00d9ff; padding: 0 1rem;">Página ${currentPage + 1} de ${totalPages}</span>
+                <button onclick="changePage('${type}', ${currentPage + 1})" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Siguiente ▶️</button>
+                <button onclick="changePage('${type}', ${totalPages - 1})" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Última ⏭️</button>
+            `;
+            paginationDiv.innerHTML = html;
+        }
+
+        function changePage(type, newPage) {
+            switch(type) {
+                case 'juegos':
+                    currentPage = newPage;
+                    loadJuegos();
+                    break;
+                case 'torneos':
+                    currentPage = newPage;
+                    loadTorneos();
+                    break;
+                case 'equipos':
+                    currentPage = newPage;
+                    loadEquipos();
+                    break;
+                case 'jugadores':
+                    currentPage = newPage;
+                    loadJugadores();
+                    break;
+            }
+        }
+
+        // ==================== DISPLAY FUNCTIONS ====================
+        function displayJuegos(juegos) {
+            const list = document.getElementById('juegos-list');
+            if (juegos.length === 0) {
+                list.innerHTML = '<p class="alert alert-info">No se encontraron juegos</p>';
+                return;
+            }
+
+            list.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Género</th>
+                            <th>Desarrollador</th>
+                            <th>Fecha Salida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${juegos.map(juego => `
+                            <tr>
+                                <td>${juego.id}</td>
+                                <td><strong>${juego.nombre}</strong></td>
+                                <td>${juego.genero || '-'}</td>
+                                <td>${juego.desarrollador || '-'}</td>
+                                <td>${juego.fechaSalida || '-'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-small" onclick="viewJuegoDetails(${juego.id})">👁️ Ver</button>
+                                    <button class="btn btn-warning btn-small" onclick="editJuego(${juego.id})">✏️ Editar</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteJuego(${juego.id})">🗑️ Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function displayEquipos(equipos) {
+            const list = document.getElementById('equipos-list');
+            if (equipos.length === 0) {
+                list.innerHTML = '<p class="alert alert-info">No se encontraron equipos</p>';
+                return;
+            }
+
+            list.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Miembros</th>
+                            <th>Fecha Creación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${equipos.map(equipo => `
+                            <tr>
+                                <td>${equipo.id}</td>
+                                <td><strong>${equipo.nombre}</strong></td>
+                                <td>${equipo.cantidadMiembros || 0}</td>
+                                <td>${equipo.fechaCreacion || '-'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-small" onclick="viewEquipoDetails(${equipo.id})">👁️ Ver</button>
+                                    <button class="btn btn-warning btn-small" onclick="editEquipo(${equipo.id})">✏️ Editar</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteEquipo(${equipo.id})">🗑️ Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function displayJugadores(jugadores) {
+            const list = document.getElementById('jugadores-list');
+            if (jugadores.length === 0) {
+                list.innerHTML = '<p class="alert alert-info">No se encontraron jugadores</p>';
+                return;
+            }
+
+            list.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nickname</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>País</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${jugadores.map(jugador => `
+                            <tr>
+                                <td>${jugador.id}</td>
+                                <td><strong>${jugador.nickname}</strong></td>
+                                <td>${jugador.nombre || '-'}</td>
+                                <td>${jugador.email}</td>
+                                <td>${jugador.pais || '-'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-small" onclick="viewJugadorDetails(${jugador.id})">👁️ Ver</button>
+                                    <button class="btn btn-warning btn-small" onclick="editJugador(${jugador.id})">✏️ Editar</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteJugador(${jugador.id})">🗑️ Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function displayTorneos(torneos) {
+            const list = document.getElementById('torneos-list');
+            if (torneos.length === 0) {
+                list.innerHTML = '<p class="alert alert-info">No se encontraron torneos</p>';
+                return;
+            }
+
+            list.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Juego</th>
+                            <th>Fechas</th>
+                            <th>Max Equipos</th>
+                            <th>Miembros/Equipo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${torneos.map(torneo => `
+                            <tr>
+                                <td>${torneo.id}</td>
+                                <td><strong>${torneo.nombre}</strong></td>
+                                <td>${torneo.juego ? torneo.juego.nombre : '-'}</td>
+                                <td>${torneo.fechaInicio} / ${torneo.fechaFinal}</td>
+                                <td>${torneo.maxEquipos || '-'}</td>
+                                <td>${torneo.miembrosPorEquipo || '-'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-small" onclick="viewTorneoDetails(${torneo.id})">👁️ Ver</button>
+                                    <button class="btn btn-warning btn-small" onclick="editTorneo(${torneo.id})">✏️ Editar</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteTorneo(${torneo.id})">🗑️ Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
         // ==================== JUEGOS ====================
         async function loadJuegos() {
             try {
                 const data = await apiCall(`/juegos?page=${currentPage}&size=${pageSize}`);
-                const list = document.getElementById('juegos-list');
-
-                if (data.content.length === 0) {
-                    list.innerHTML = '<p class="alert alert-info">No hay juegos registrados</p>';
-                    return;
-                }
-
-                list.innerHTML = `
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Género</th>
-                                <th>Desarrollador</th>
-                                <th>Fecha Salida</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.content.map(juego => `
-                                <tr>
-                                    <td>${juego.id}</td>
-                                    <td><strong>${juego.nombre}</strong></td>
-                                    <td>${juego.genero || '-'}</td>
-                                    <td>${juego.desarrollador || '-'}</td>
-                                    <td>${juego.fechaSalida || '-'}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-small" onclick="editJuego(${juego.id})">✏️ Editar</button>
-                                        <button class="btn btn-danger btn-small" onclick="deleteJuego(${juego.id})">🗑️ Eliminar</button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
+                allJuegos = data.content;
+                displayJuegos(allJuegos);
+                renderPagination('juegos', data.number, data.totalPages);
             } catch (error) {
                 document.getElementById('juegos-list').innerHTML = '<p class="alert alert-error">Error al cargar juegos</p>';
+            }
+        }
+
+        async function viewJuegoDetails(id) {
+            try {
+                const juego = await apiCall(`/juegos/${id}`);
+                const content = `
+                    <div class="detail-row"><label>ID:</label><span>${juego.id}</span></div>
+                    <div class="detail-row"><label>Nombre:</label><span>${juego.nombre}</span></div>
+                    <div class="detail-row"><label>Género:</label><span>${juego.genero || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Desarrollador:</label><span>${juego.desarrollador || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Fecha de Salida:</label><span>${juego.fechaSalida || 'N/A'}</span></div>
+                `;
+                openModal('🎯 Detalles del Juego', content);
+            } catch (error) {
+                // Error ya mostrado
             }
         }
 
@@ -722,46 +1199,30 @@
         async function loadTorneos() {
             try {
                 const data = await apiCall(`/torneos?page=${currentPage}&size=${pageSize}`);
-                const list = document.getElementById('torneos-list');
-
-                if (data.content.length === 0) {
-                    list.innerHTML = '<p class="alert alert-info">No hay torneos registrados</p>';
-                    return;
-                }
-
-                list.innerHTML = `
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Juego</th>
-                                <th>Fechas</th>
-                                <th>Max Equipos</th>
-                                <th>Miembros/Equipo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.content.map(torneo => `
-                                <tr>
-                                    <td>${torneo.id}</td>
-                                    <td><strong>${torneo.nombre}</strong></td>
-                                    <td>${torneo.juego ? torneo.juego.nombre : '-'}</td>
-                                    <td>${torneo.fechaInicio} / ${torneo.fechaFinal}</td>
-                                    <td>${torneo.maxEquipos || '-'}</td>
-                                    <td>${torneo.miembrosPorEquipo || '-'}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-small" onclick="editTorneo(${torneo.id})">✏️ Editar</button>
-                                        <button class="btn btn-danger btn-small" onclick="deleteTorneo(${torneo.id})">🗑️ Eliminar</button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
+                allTorneos = data.content;
+                displayTorneos(allTorneos);
+                renderPagination('torneos', data.number, data.totalPages);
             } catch (error) {
                 document.getElementById('torneos-list').innerHTML = '<p class="alert alert-error">Error al cargar torneos</p>';
+            }
+        }
+
+        async function viewTorneoDetails(id) {
+            try {
+                const torneo = await apiCall(`/torneos/${id}`);
+                const content = `
+                    <div class="detail-row"><label>ID:</label><span>${torneo.id}</span></div>
+                    <div class="detail-row"><label>Nombre:</label><span>${torneo.nombre}</span></div>
+                    <div class="detail-row"><label>Descripción:</label><span>${torneo.descripcion || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Juego:</label><span>${torneo.juego ? torneo.juego.nombre : 'N/A'}</span></div>
+                    <div class="detail-row"><label>Fecha Inicio:</label><span>${torneo.fechaInicio}</span></div>
+                    <div class="detail-row"><label>Fecha Final:</label><span>${torneo.fechaFinal}</span></div>
+                    <div class="detail-row"><label>Máximo Equipos:</label><span>${torneo.maxEquipos || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Miembros por Equipo:</label><span>${torneo.miembrosPorEquipo || 'N/A'}</span></div>
+                `;
+                openModal('🏆 Detalles del Torneo', content);
+            } catch (error) {
+                // Error ya mostrado
             }
         }
 
@@ -842,42 +1303,34 @@
         async function loadEquipos() {
             try {
                 const data = await apiCall(`/equipos?page=${currentPage}&size=${pageSize}`);
-                const list = document.getElementById('equipos-list');
-
-                if (data.content.length === 0) {
-                    list.innerHTML = '<p class="alert alert-info">No hay equipos registrados</p>';
-                    return;
-                }
-
-                list.innerHTML = `
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Miembros</th>
-                                <th>Fecha Creación</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.content.map(equipo => `
-                                <tr>
-                                    <td>${equipo.id}</td>
-                                    <td><strong>${equipo.nombre}</strong></td>
-                                    <td>${equipo.cantidadMiembros || 0}</td>
-                                    <td>${equipo.fechaCreacion || '-'}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-small" onclick="editEquipo(${equipo.id})">✏️ Editar</button>
-                                        <button class="btn btn-danger btn-small" onclick="deleteEquipo(${equipo.id})">🗑️ Eliminar</button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
+                allEquipos = data.content;
+                displayEquipos(allEquipos);
+                renderPagination('equipos', data.number, data.totalPages);
             } catch (error) {
                 document.getElementById('equipos-list').innerHTML = '<p class="alert alert-error">Error al cargar equipos</p>';
+            }
+        }
+
+        async function viewEquipoDetails(id) {
+            try {
+                const equipo = await apiCall(`/equipos/${id}`);
+                let miembrosHTML = '';
+                if (equipo.jugadores && equipo.jugadores.length > 0) {
+                    miembrosHTML = '<div class="detail-row"><label>Jugadores:</label><span>' +
+                        equipo.jugadores.map(j => j.nickname).join(', ') + '</span></div>';
+                }
+
+                const content = `
+                    <div class="detail-row"><label>ID:</label><span>${equipo.id}</span></div>
+                    <div class="detail-row"><label>Nombre:</label><span>${equipo.nombre}</span></div>
+                    <div class="detail-row"><label>Logo URL:</label><span>${equipo.logoUrl || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Cantidad Miembros:</label><span>${equipo.cantidadMiembros || 0}</span></div>
+                    <div class="detail-row"><label>Fecha Creación:</label><span>${equipo.fechaCreacion || 'N/A'}</span></div>
+                    ${miembrosHTML}
+                `;
+                openModal('👥 Detalles del Equipo', content);
+            } catch (error) {
+                // Error ya mostrado
             }
         }
 
@@ -937,44 +1390,34 @@
         async function loadJugadores() {
             try {
                 const data = await apiCall(`/jugadores?page=${currentPage}&size=${pageSize}`);
-                const list = document.getElementById('jugadores-list');
-
-                if (data.content.length === 0) {
-                    list.innerHTML = '<p class="alert alert-info">No hay jugadores registrados</p>';
-                    return;
-                }
-
-                list.innerHTML = `
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nickname</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>País</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.content.map(jugador => `
-                                <tr>
-                                    <td>${jugador.id}</td>
-                                    <td><strong>${jugador.nickname}</strong></td>
-                                    <td>${jugador.nombre || '-'}</td>
-                                    <td>${jugador.email}</td>
-                                    <td>${jugador.pais || '-'}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-small" onclick="editJugador(${jugador.id})">✏️ Editar</button>
-                                        <button class="btn btn-danger btn-small" onclick="deleteJugador(${jugador.id})">🗑️ Eliminar</button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
+                allJugadores = data.content;
+                displayJugadores(allJugadores);
+                renderPagination('jugadores', data.number, data.totalPages);
             } catch (error) {
                 document.getElementById('jugadores-list').innerHTML = '<p class="alert alert-error">Error al cargar jugadores</p>';
+            }
+        }
+
+        async function viewJugadorDetails(id) {
+            try {
+                const jugador = await apiCall(`/jugadores/${id}`);
+                let equipoHTML = '';
+                if (jugador.equipo) {
+                    equipoHTML = `<div class="detail-row"><label>Equipo:</label><span>${jugador.equipo.nombre}</span></div>`;
+                }
+
+                const content = `
+                    <div class="detail-row"><label>ID:</label><span>${jugador.id}</span></div>
+                    <div class="detail-row"><label>Nickname:</label><span>${jugador.nickname}</span></div>
+                    <div class="detail-row"><label>Nombre:</label><span>${jugador.nombre || 'N/A'}</span></div>
+                    <div class="detail-row"><label>Email:</label><span>${jugador.email}</span></div>
+                    <div class="detail-row"><label>Fecha Nacimiento:</label><span>${jugador.fechaNacimiento || 'N/A'}</span></div>
+                    <div class="detail-row"><label>País:</label><span>${jugador.pais || 'N/A'}</span></div>
+                    ${equipoHTML}
+                `;
+                openModal('🎮 Detalles del Jugador', content);
+            } catch (error) {
+                // Error ya mostrado
             }
         }
 
@@ -1227,6 +1670,7 @@
                                     <td>${res.equipoNombre}</td>
                                     <td>${res.puntuacion || '-'}</td>
                                     <td>
+                                        <button class="btn btn-warning btn-small" onclick="editResultado(${res.equipoId}, ${res.torneoId}, ${res.posicion}, ${res.puntuacion})">✏️ Editar</button>
                                         <button class="btn btn-danger btn-small" onclick="deleteResultado(${res.equipoId}, ${res.torneoId})">🗑️ Eliminar</button>
                                     </td>
                                 </tr>
@@ -1241,6 +1685,7 @@
 
         document.getElementById('resultado-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const editando = document.getElementById('resultado-editando').value;
 
             const data = {
                 equipoId: parseInt(document.getElementById('resultado-equipo').value),
@@ -1250,14 +1695,40 @@
             };
 
             try {
-                await apiCall('/resultados', { method: 'POST', body: JSON.stringify(data) });
-                showMessage('Resultado registrado correctamente');
-                document.getElementById('resultado-form').reset();
+                if (editando === 'true') {
+                    // Actualizar resultado existente
+                    await apiCall(`/resultados/${data.equipoId}/${data.torneoId}`,
+                        { method: 'PUT', body: JSON.stringify(data) });
+                    showMessage('Resultado actualizado correctamente');
+                } else {
+                    // Crear nuevo resultado
+                    await apiCall('/resultados', { method: 'POST', body: JSON.stringify(data) });
+                    showMessage('Resultado registrado correctamente');
+                }
+                resetResultadoForm();
                 loadRanking();
             } catch (error) {
                 // Error ya mostrado
             }
         });
+
+        function editResultado(equipoId, torneoId, posicion, puntuacion) {
+            document.getElementById('resultado-editando').value = 'true';
+            document.getElementById('resultado-equipo').value = equipoId;
+            document.getElementById('resultado-torneo').value = torneoId;
+            document.getElementById('resultado-posicion').value = posicion;
+            document.getElementById('resultado-puntuacion').value = puntuacion;
+
+            // Cambiar título del formulario
+            document.querySelector('#resultados-tab .section h2').textContent = '✏️ Editar Resultado';
+            window.scrollTo(0, 0);
+        }
+
+        function resetResultadoForm() {
+            document.getElementById('resultado-form').reset();
+            document.getElementById('resultado-editando').value = '';
+            document.querySelector('#resultados-tab .section h2').textContent = '➕ Registrar Resultado';
+        }
 
         async function deleteResultado(equipoId, torneoId) {
             if (!confirm('¿Está seguro de eliminar este resultado?')) return;
@@ -1273,7 +1744,7 @@
 
         // ==================== INICIALIZACIÓN ====================
         document.addEventListener('DOMContentLoaded', () => {
-            loadJuegos();
+            loadDashboard();
         });
     </script>
 </body>

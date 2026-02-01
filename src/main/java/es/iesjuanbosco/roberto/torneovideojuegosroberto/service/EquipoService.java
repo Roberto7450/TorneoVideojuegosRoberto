@@ -2,16 +2,23 @@ package es.iesjuanbosco.roberto.torneovideojuegosroberto.service;
 
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.request.EquipoRequestDTO;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.response.EquipoResponseDTO;
+import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.response.JugadorSimpleDTO;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.entity.Equipo;
+import es.iesjuanbosco.roberto.torneovideojuegosroberto.entity.Inscripcion;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.enums.EstadoInscripcion;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.exception.ResourceNotFoundException;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.mapper.EquipoMapper;
+import es.iesjuanbosco.roberto.torneovideojuegosroberto.mapper.JugadorMapper;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.repository.EquipoRepository;
+import es.iesjuanbosco.roberto.torneovideojuegosroberto.repository.InscripcionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +27,8 @@ public class EquipoService {
 
     private final EquipoRepository equipoRepository;
     private final EquipoMapper equipoMapper;
+    private final InscripcionRepository inscripcionRepository;
+    private final JugadorMapper jugadorMapper;
 
     public Page<EquipoResponseDTO> listar(Pageable pageable) {
         Page<Equipo> equipos = equipoRepository.findAll(pageable);
@@ -42,6 +51,14 @@ public class EquipoService {
         // Calcular cantidad de miembros activos
         Long cantidad = equipoRepository.contarMiembrosActivos(id, EstadoInscripcion.CONFIRMADA);
         dto.setCantidadMiembros(cantidad.intValue());
+
+        // Obtener miembros activos
+        List<Inscripcion> inscripciones = inscripcionRepository
+                .findByEquipoIdAndEstado(id, EstadoInscripcion.CONFIRMADA);
+        List<JugadorSimpleDTO> miembros = inscripciones.stream()
+                .map(i -> jugadorMapper.toSimpleDTO(i.getJugador()))
+                .collect(Collectors.toList());
+        dto.setMiembros(miembros);
 
         return dto;
     }

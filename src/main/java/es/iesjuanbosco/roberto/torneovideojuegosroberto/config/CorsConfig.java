@@ -18,13 +18,6 @@ public class CorsConfig {
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
-
-                // Permitir también las rutas de autenticación
-                registry.addMapping("/auth/**")
-                        .allowedOrigins("http://localhost:8080", "http://127.0.0.1:8080")
-                        .allowedMethods("GET", "POST", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
             }
         };
     }
