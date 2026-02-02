@@ -28,6 +28,16 @@ public class JuegoController {
         return ResponseEntity.ok(juegoService.listar(pageable));
     }
 
+    // GET /api/juegos/buscar?desarrollador={nombre}&genero={genero}&page=0
+    @GetMapping("/buscar")
+    @Operation(summary = "BÚSQUEDA AVANZADA: Buscar juegos por desarrollador y/o género con paginación")
+    public ResponseEntity<Page<JuegoResponseDTO>> buscar(
+            @RequestParam(required = false) String desarrollador,
+            @RequestParam(required = false) String genero,
+            Pageable pageable) {
+        return ResponseEntity.ok(juegoService.buscarPorDesarrolladorYGenero(desarrollador, genero, pageable));
+    }
+
     // GET /api/juegos/{id}
     @GetMapping("/{id}")
     @Operation(summary = "Obtener juego por ID")

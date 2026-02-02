@@ -69,7 +69,7 @@ public class InscripcionService {
         } else if (torneo.getMiembrosPorEquipo() == 1) {
             // CASO 2: Torneo individual - crear equipo automáticamente
             Equipo equipoIndividual = new Equipo();
-            equipoIndividual.setNombre("Team " + jugador.getNickname());
+            equipoIndividual.setNombre(jugador.getNickname());
             // fechaCreacion se establece automáticamente con @CreationTimestamp
             equipo = equipoRepository.save(equipoIndividual);
             esEquipoNuevo = true;

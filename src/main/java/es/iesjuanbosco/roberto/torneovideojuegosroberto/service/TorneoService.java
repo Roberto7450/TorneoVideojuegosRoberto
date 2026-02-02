@@ -38,12 +38,6 @@ public class TorneoService {
     }
 
 
-    public Page<TorneoResponseDTO> buscarPorNombreYJuego(String nombre, Integer juegoId, Pageable pageable) {
-        Page<Torneo> torneos = torneoRepository.buscarPorNombreYJuego(nombre, juegoId, pageable);
-        return torneos.map(this::convertirADTO);
-    }
-
-
     @Transactional
     public TorneoResponseDTO crear(TorneoRequestDTO dto) {
         // RN-05: Verificar que fechaInicio < fechaFinal

@@ -1,0 +1,977 @@
+{
+	"info": {
+		"_postman_id": "torneo-videojuegos-collection",
+		"name": "Torneo Videojuegos - API Collection",
+		"description": "Colección completa de endpoints para la API de gestión de torneos de videojuegos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. CONSULTAS (GET) - Verificar Datos Existentes",
+			"item": [
+				{
+					"name": "Listar Juegos (Ver datos existentes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Equipos (Ver datos existentes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugadores (Ver datos existentes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Torneos (Ver datos existentes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Juegos por Desarrollador y Género",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/buscar?desarrollador=Riot Games&genero=MOBA&page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "buscar"],
+							"query": [
+								{
+									"key": "desarrollador",
+									"value": "Riot Games"
+								},
+								{
+									"key": "genero",
+									"value": "MOBA"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Juego por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Equipo por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Jugador por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Torneo por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Inscripciones por Torneo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones/torneo/1?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones", "torneo", "1"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Ranking del Torneo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/resultados/torneo/1/ranking",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "resultados", "torneo", "1", "ranking"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. CREAR (POST) - Nuevas Entidades de Prueba",
+			"item": [
+				{
+					"name": "Crear Juego TEST - Stardew Valley",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"juegoTestId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Stardew Valley Tournament Edition\",\n  \"genero\": \"Simulación\",\n  \"desarrollador\": \"ConcernedApe\",\n  \"fechaSalida\": \"2016-02-26\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Equipo TEST - Los Testers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"equipoTestId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Los Testers Pro\",\n  \"logoUrl\": \"https://example.com/testers-logo.png\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Jugador TEST 1 - Ana Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"jugadorTest1Id\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Ana María Testadora\",\n  \"nickname\": \"AnaTest99\",\n  \"email\": \"anatest@testing.com\",\n  \"fechaNacimiento\": \"1998-05-15\",\n  \"pais\": \"España\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Jugador TEST 2 - Pedro QA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"jugadorTest2Id\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pedro Calidad\",\n  \"nickname\": \"PedroQA777\",\n  \"email\": \"pedroqa@testing.com\",\n  \"fechaNacimiento\": \"2000-08-20\",\n  \"pais\": \"México\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Torneo TEST - Copa Testing 2026",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"torneoTestId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Copa Testing Internacional 2026\",\n  \"descripcion\": \"Torneo de prueba para validar endpoints\",\n  \"fechaInicio\": \"2026-12-01\",\n  \"fechaFinal\": \"2026-12-15\",\n  \"maxEquipos\": 8,\n  \"miembrosPorEquipo\": 3,\n  \"juegoId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Inscripción TEST - Jugador 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jugadorId\": {{jugadorTest1Id}},\n  \"torneoId\": {{torneoTestId}},\n  \"equipoId\": {{equipoTestId}}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Inscripción TEST - Jugador 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jugadorId\": {{jugadorTest2Id}},\n  \"torneoId\": {{torneoTestId}},\n  \"equipoId\": {{equipoTestId}}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Resultado TEST",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"equipoId\": {{equipoTestId}},\n  \"torneoId\": {{torneoTestId}},\n  \"puntuacion\": 150\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/resultados",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "resultados"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. ACTUALIZAR (PUT/PATCH) - Modificar Entidades de Prueba",
+			"item": [
+				{
+					"name": "Actualizar Juego TEST",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Stardew Valley Tournament Edition ACTUALIZADO\",\n  \"genero\": \"Simulación Competitiva\",\n  \"desarrollador\": \"ConcernedApe\",\n  \"fechaSalida\": \"2016-02-26\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/{{juegoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "{{juegoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Equipo TEST",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Los Testers Pro ELITE\",\n  \"logoUrl\": \"https://example.com/testers-logo-new.png\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos/{{equipoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos", "{{equipoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Jugador TEST 1",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Ana María Testadora PRO\",\n  \"nickname\": \"AnaTestPRO\",\n  \"email\": \"anatestpro@testing.com\",\n  \"fechaNacimiento\": \"1998-05-15\",\n  \"pais\": \"España\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores/{{jugadorTest1Id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores", "{{jugadorTest1Id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Jugador TEST 2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pedro Calidad Master\",\n  \"nickname\": \"PedroQAMaster\",\n  \"email\": \"pedroqamaster@testing.com\",\n  \"fechaNacimiento\": \"2000-08-20\",\n  \"pais\": \"México\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores/{{jugadorTest2Id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores", "{{jugadorTest2Id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Torneo TEST",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Copa Testing Internacional 2026 FINAL\",\n  \"descripcion\": \"Torneo de prueba actualizado con nuevas reglas\",\n  \"fechaInicio\": \"2026-12-01\",\n  \"fechaFinal\": \"2026-12-20\",\n  \"maxEquipos\": 16,\n  \"miembrosPorEquipo\": 5,\n  \"juegoId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Estado Inscripción a CONFIRMADA",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones/{{jugadorTest1Id}}/{{torneoTestId}}/estado?estado=CONFIRMADA",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones", "{{jugadorTest1Id}}", "{{torneoTestId}}", "estado"],
+							"query": [
+								{
+									"key": "estado",
+									"value": "CONFIRMADA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Estado Inscripción a ELIMINADA",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones/{{jugadorTest2Id}}/{{torneoTestId}}/estado?estado=ELIMINADA",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones", "{{jugadorTest2Id}}", "{{torneoTestId}}", "estado"],
+							"query": [
+								{
+									"key": "estado",
+									"value": "ELIMINADA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Resultado TEST",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"equipoId\": {{equipoTestId}},\n  \"torneoId\": {{torneoTestId}},\n  \"puntuacion\": 350\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/resultados/{{equipoTestId}}/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "resultados", "{{equipoTestId}}", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. ELIMINAR (DELETE) - Limpiar Entidades de Prueba",
+			"item": [
+				{
+					"name": "Eliminar Resultado TEST",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/resultados/{{equipoTestId}}/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "resultados", "{{equipoTestId}}", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Inscripción TEST - Jugador 1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones/{{jugadorTest1Id}}/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones", "{{jugadorTest1Id}}", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Inscripción TEST - Jugador 2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/inscripciones/{{jugadorTest2Id}}/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "inscripciones", "{{jugadorTest2Id}}", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Torneo TEST",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos/{{torneoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos", "{{torneoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Jugador TEST 1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores/{{jugadorTest1Id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores", "{{jugadorTest1Id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Jugador TEST 2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores/{{jugadorTest2Id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores", "{{jugadorTest2Id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Equipo TEST",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos/{{equipoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos", "{{equipoTestId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Juego TEST",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/{{juegoTestId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "{{juegoTestId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. VERIFICACIÓN FINAL - Comprobar BD Intacta",
+			"item": [
+				{
+					"name": "Verificar Juegos (debe ser igual al inicio)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Equipos (debe ser igual al inicio)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Jugadores (debe ser igual al inicio)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Torneos (debe ser igual al inicio)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/torneos?page=0&size=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "torneos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. EXTRAS - Tests de Paginación y Búsquedas",
+			"item": [
+				{
+					"name": "Paginación Juegos - Página 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos?page=1&size=5",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Búsqueda solo por Desarrollador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/buscar?desarrollador=Valve Corporation",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "buscar"],
+							"query": [
+								{
+									"key": "desarrollador",
+									"value": "Valve Corporation"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Búsqueda solo por Género",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/juegos/buscar?genero=Lucha",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "juegos", "buscar"],
+							"query": [
+								{
+									"key": "genero",
+									"value": "Lucha"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Paginación Equipos - Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/equipos?page=0&size=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "equipos"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Paginación Jugadores - Página 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jugadores?page=2&size=15",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jugadores"],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "size",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -19,10 +19,6 @@ public class ResultadoRequestDTO {
     @NotNull(message = "El ID del torneo es obligatorio")
     private Integer torneoId;
 
-    @NotNull(message = "La posición es obligatoria")
-    @Min(value = 1, message = "La posición debe ser al menos 1")
-    private Integer posicion;
-
     @NotNull(message = "La puntuación es obligatoria")
     @Min(value = 0, message = "La puntuación no puede ser negativa")
     private Integer puntuacion;

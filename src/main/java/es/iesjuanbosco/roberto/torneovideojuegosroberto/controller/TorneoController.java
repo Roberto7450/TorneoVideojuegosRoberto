@@ -28,16 +28,6 @@ public class TorneoController {
         return ResponseEntity.ok(torneoService.listar(pageable));
     }
 
-    // GET /api/torneos/buscar?nombre={nombre}&juegoId={id}&page=0
-    @GetMapping("/buscar")
-    @Operation(summary = "BÚSQUEDA AVANZADA: Buscar torneos por nombre y/o juego con paginación")
-    public ResponseEntity<Page<TorneoResponseDTO>> buscar(
-            @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) Integer juegoId,
-            Pageable pageable) {
-        return ResponseEntity.ok(torneoService.buscarPorNombreYJuego(nombre, juegoId, pageable));
-    }
-
     // GET /api/torneos/{id}
     @GetMapping("/{id}")
     @Operation(summary = "Obtener torneo por ID")

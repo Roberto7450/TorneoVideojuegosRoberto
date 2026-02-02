@@ -42,6 +42,16 @@ public class JuegoService {
     }
 
 
+    public Page<JuegoResponseDTO> buscarPorDesarrolladorYGenero(String desarrollador, String genero, Pageable pageable) {
+        Page<Juego> juegos = juegoRepository.buscarPorDesarrolladorYGenero(desarrollador, genero, pageable);
+        return juegos.map(juego -> {
+            JuegoResponseDTO dto = juegoMapper.toResponseDTO(juego);
+            dto.setCantidadTorneos(juego.getTorneos() != null ? juego.getTorneos().size() : 0);
+            return dto;
+        });
+    }
+
+
     @Transactional
     public JuegoResponseDTO crear(JuegoRequestDTO dto) {
         Juego juego = juegoMapper.toEntity(dto);

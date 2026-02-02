@@ -66,6 +66,77 @@ INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES (
 INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Gears 5', 'TPS', 'The Coalition', '2019-09-10');
 INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Splatoon 3', 'TPS', 'Nintendo', '2022-09-09');
 
+-- Más juegos competitivos sin torneos (para probar búsquedas)
+-- Riot Games
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Legends of Runeterra', 'Cartas Digitales', 'Riot Games', '2020-04-30');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Project L', 'Lucha', 'Riot Games', '2024-06-01');
+
+-- Valve Corporation
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Left 4 Dead 2', 'FPS Cooperativo', 'Valve Corporation', '2009-11-17');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Half-Life: Alyx', 'FPS VR', 'Valve Corporation', '2020-03-23');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Team Fortress 2', 'FPS Hero Shooter', 'Valve Corporation', '2007-10-10');
+
+-- Blizzard Entertainment
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('World of Warcraft', 'MMORPG', 'Blizzard Entertainment', '2004-11-23');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Diablo IV', 'ARPG', 'Blizzard Entertainment', '2023-06-06');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Heroes of the Storm', 'MOBA', 'Blizzard Entertainment', '2015-06-02');
+
+-- Epic Games
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Unreal Tournament', 'FPS Arena', 'Epic Games', '1999-11-22');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Gears of War 4', 'TPS', 'Epic Games', '2016-10-11');
+
+-- Ubisoft
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('For Honor', 'Lucha Táctica', 'Ubisoft', '2017-02-14');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Ghost Recon Breakpoint', 'TPS Táctico', 'Ubisoft', '2019-10-04');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Assassins Creed Valhalla', 'ARPG', 'Ubisoft', '2020-11-10');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('The Division 2', 'TPS Looter', 'Ubisoft', '2019-03-15');
+
+-- Nintendo
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Mario Kart 8 Deluxe', 'Carreras', 'Nintendo', '2017-04-28');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Arms', 'Lucha', 'Nintendo', '2017-06-16');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Pokemon Unite', 'MOBA Mobile', 'Nintendo', '2021-07-21');
+
+-- EA Sports
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Madden NFL 24', 'Deportes/Fútbol Americano', 'EA Sports', '2023-08-18');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('NHL 24', 'Deportes/Hockey', 'EA Sports', '2023-10-06');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('UFC 5', 'Lucha/MMA', 'EA Sports', '2023-10-27');
+
+-- Capcom
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Monster Hunter World', 'ARPG', 'Capcom', '2018-01-26');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Resident Evil Village', 'Survival Horror', 'Capcom', '2021-05-07');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Devil May Cry 5', 'Hack and Slash', 'Capcom', '2019-03-08');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Marvel vs Capcom Infinite', 'Lucha', 'Capcom', '2017-09-19');
+
+-- Bandai Namco
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Elden Ring', 'ARPG', 'Bandai Namco', '2022-02-25');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Dragon Ball FighterZ', 'Lucha', 'Bandai Namco', '2018-01-26');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Soulcalibur VI', 'Lucha', 'Bandai Namco', '2018-10-19');
+
+-- NetherRealm Studios
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Injustice 2', 'Lucha', 'NetherRealm Studios', '2017-05-16');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Mortal Kombat 11', 'Lucha', 'NetherRealm Studios', '2019-04-23');
+
+-- Arc System Works
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Dragon Ball Z: Kakarot', 'ARPG', 'Arc System Works', '2020-01-17');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('BlazBlue: Cross Tag Battle', 'Lucha', 'Arc System Works', '2018-05-31');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Granblue Fantasy Versus', 'Lucha', 'Arc System Works', '2020-02-06');
+
+-- Otros desarrolladores
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Smite', 'MOBA', 'Hi-Rez Studios', '2014-03-25');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Paladins', 'FPS Hero Shooter', 'Hi-Rez Studios', '2018-05-08');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Rogue Company', 'TPS Táctico', 'Hi-Rez Studios', '2020-10-01');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Splitgate', 'FPS Arena', 'Splitgate Studios', '2021-07-27');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Warframe', 'TPS Looter', 'Digital Extremes', '2013-03-25');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Destiny 2', 'FPS Looter', 'Bungie', '2017-09-06');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Halo 5: Guardians', 'FPS Arena', 'Bungie', '2015-10-27');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Fall Guys', 'Battle Royale', 'Mediatonic', '2020-08-04');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Among Us', 'Party Game', 'Innersloth', '2018-06-15');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Rust', 'Survival', 'Facepunch Studios', '2018-02-08');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Dead by Daylight', 'Survival Horror', 'Behaviour Interactive', '2016-06-14');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Sea of Thieves', 'Aventura', 'Rare', '2018-03-20');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Minecraft', 'Sandbox', 'Mojang Studios', '2011-11-18');
+INSERT IGNORE INTO juegos (nombre, genero, desarrollador, fecha_salida) VALUES ('Terraria', 'Sandbox', 'Re-Logic', '2011-05-16');
+
 -- =====================================================
 -- JUGADORES PROFESIONALES REALES (Mix Internacional)
 -- =====================================================
@@ -353,6 +424,43 @@ VALUES ('Enzo Mestari', 'Wo0t', 'woot@heretics.gg', '2006-02-28', 'España');
 INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
 VALUES ('Benjamín Rabinovich', 'Benjyfishy', 'benjy@heretics.gg', '2004-04-02', 'Reino Unido');
 
+-- Jugadores sin equipo - Mix internacional
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Carlos Rodríguez', 'Carlitos89', 'carlos89@pro.gg', '2000-03-12', 'España');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('María López', 'MariGamer', 'maria@pro.gg', '2001-07-23', 'México');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('João Silva', 'JoaoTheKing', 'joao@pro.gg', '1999-11-05', 'Brasil');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Pierre Dubois', 'PierreFR', 'pierre@pro.gg', '2002-01-18', 'Francia');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Anna Schmidt', 'AnnaGG', 'anna@pro.gg', '2003-05-30', 'Alemania');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Luca Rossi', 'LucaITA', 'luca@pro.gg', '2001-09-14', 'Italia');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Hiroshi Tanaka', 'HiroJP', 'hiro@pro.gg', '2000-12-08', 'Japón');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Kim Min-jun', 'MinJunKR', 'minjun@pro.gg', '2002-04-22', 'Corea del Sur');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Emma Johnson', 'EmmaUS', 'emma@pro.gg', '2001-08-17', 'Estados Unidos');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Oliver Smith', 'OliverUK', 'oliver@pro.gg', '2000-02-28', 'Reino Unido');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Sofia Andersson', 'SofiaSE', 'sofia@pro.gg', '2003-06-11', 'Suecia');
+
+INSERT IGNORE INTO jugadores (nombre, nickname, email, fecha_nacimiento, pais)
+VALUES ('Luis Fernández', 'LuisCL', 'luis@pro.gg', '2001-10-25', 'Chile');
+
 -- =====================================================
 -- EQUIPOS PROFESIONALES REALES CON LOGOS
 -- =====================================================
@@ -396,19 +504,19 @@ VALUES ('Valorant Champions 2026', 'El evento más importante del año de Valora
 
 -- Fortnite FNCS 2026 Solo - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('Fortnite FNCS 2026 Solo', 'Fortnite Champion Series Invierno 2026 - Modalidad Solo. Competencia individual.', 5, '2026-03-01', '2026-03-15', 1, 200);
+VALUES ('Fortnite FNCS 2026 Solo', 'Fortnite Champion Series Invierno 2026 - Modalidad Solo. Competencia individual.', 6, '2026-03-01', '2026-03-15', 1, 200);
 
 -- Fortnite FNCS 2026 Duo - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('Fortnite FNCS 2026 Duo', 'Fortnite Champion Series Primavera 2026 - Modalidad Dúo. Equipos de 2 jugadores.', 5, '2026-04-15', '2026-04-30', 2, 100);
+VALUES ('Fortnite FNCS 2026 Duo', 'Fortnite Champion Series Primavera 2026 - Modalidad Dúo. Equipos de 2 jugadores.', 6, '2026-04-15', '2026-04-30', 2, 100);
 
 -- Rocket League Championship 2026 - FINALIZADO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('RLCS Winter Major 2026', 'Rocket League Championship Series - Major de Invierno 2026. Equipos de 3 jugadores.', 7, '2026-01-10', '2026-01-20', 3, 16);
+VALUES ('RLCS Winter Major 2026', 'Rocket League Championship Series - Major de Invierno 2026. Equipos de 3 jugadores.', 18, '2026-01-10', '2026-01-20', 3, 16);
 
 -- Brawl Stars World Finals 2025 - FINALIZADO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('Brawl Stars World Finals 2025', 'Finales Mundiales de Brawl Stars 2025. Los mejores equipos mobile del mundo. Equipos de 3 jugadores.', 8, '2025-11-20', '2025-11-24', 3, 16);
+VALUES ('Brawl Stars World Finals 2025', 'Finales Mundiales de Brawl Stars 2025. Los mejores equipos mobile del mundo. Equipos de 3 jugadores.', 24, '2025-11-20', '2025-11-24', 3, 16);
 
 -- Overwatch Champions Series 2026 - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
@@ -416,23 +524,23 @@ VALUES ('Overwatch Champions Series 2026', 'La liga oficial de Overwatch 2. Equi
 
 -- Apex Legends Global Series 2026 - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('ALGS Championship 2026', 'Apex Legends Global Series - El campeonato mundial. Equipos de 3 jugadores.', 10, '2026-06-15', '2026-06-22', 3, 40);
+VALUES ('ALGS Championship 2026', 'Apex Legends Global Series - El campeonato mundial. Equipos de 3 jugadores.', 7, '2026-06-15', '2026-06-22', 3, 40);
 
 -- Call of Duty Championship 2026 - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('CDL Championship 2026', 'Call of Duty League Championship. Equipos de 4 jugadores en Warzone competitivo.', 11, '2026-07-05', '2026-07-12', 4, 16);
+VALUES ('CDL Championship 2026', 'Call of Duty League Championship. Equipos de 4 jugadores en Warzone competitivo.', 33, '2026-07-05', '2026-07-12', 4, 16);
 
 -- Mobile Legends M6 World Championship 2026 - EN PROGRESO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('M6 World Championship 2026', 'Campeonato Mundial de Mobile Legends temporada 6. Equipos de 5 jugadores mobile.', 12, '2026-01-15', '2026-02-05', 5, 16);
+VALUES ('M6 World Championship 2026', 'Campeonato Mundial de Mobile Legends temporada 6. Equipos de 5 jugadores mobile.', 24, '2026-01-15', '2026-02-05', 5, 16);
 
 -- Tekken World Tour Finals 2025 - FINALIZADO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('Tekken 8 World Tour Finals 2025', 'Las finales del Tekken World Tour. Competencia individual 1v1.', 13, '2025-12-15', '2025-12-17', 1, 64);
+VALUES ('Tekken 8 World Tour Finals 2025', 'Las finales del Tekken World Tour. Competencia individual 1v1.', 11, '2025-12-15', '2025-12-17', 1, 64);
 
 -- Street Fighter 6 CPT 2026 - FUTURO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
-VALUES ('Street Fighter 6 Capcom Pro Tour 2026', 'Capcom Pro Tour - La gira oficial de Street Fighter 6. Competencia individual.', 6, '2026-08-01', '2026-08-05', 1, 128);
+VALUES ('Street Fighter 6 Capcom Pro Tour 2026', 'Capcom Pro Tour - La gira oficial de Street Fighter 6. Competencia individual.', 10, '2026-08-01', '2026-08-05', 1, 128);
 
 -- StarCraft II GSL 2026 - EN PROGRESO
 INSERT IGNORE INTO torneos (nombre, descripcion, juego_id, fecha_inicio, fecha_final, miembros_por_equipo, max_equipos)
@@ -516,18 +624,18 @@ VALUES (41, 2, 12, 'CONFIRMADA', '2026-01-05'), -- Yatoro
 
 -- Fortnite FNCS 2026 Solo (Individual - sin equipo) - 12 inscritos
 INSERT IGNORE INTO inscripciones (jugador_id, torneo_id, equipo_id, estado, fecha_inscripcion)
-VALUES (46, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Bugha
-       (47, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Setty
-       (48, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Mero
-       (49, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Kami
-       (50, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Coop
-       (51, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Ninja
-       (52, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Th0mas
-       (53, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Queasy
-       (54, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- Vico (Español)
-       (55, 4, NULL, 'CONFIRMADA', '2026-02-01'), -- JannisZ (Español)
-       (56, 4, NULL, 'PENDIENTE', '2026-02-01'), -- King (Brasil)
-       (57, 4, NULL, 'PENDIENTE', '2026-02-01'); -- Enz0 (Argentina)
+VALUES (46, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Bugha
+       (47, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Setty
+       (48, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Mero
+       (49, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Kami
+       (50, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Coop
+       (51, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Ninja
+       (52, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Th0mas
+       (53, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Queasy
+       (54, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- Vico (Español)
+       (55, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- JannisZ (Español)
+       (56, 5, NULL, 'CONFIRMADA', '2026-02-01'), -- King (Brasil)
+       (57, 5, NULL, 'CONFIRMADA', '2026-02-01'); -- Enz0 (Argentina)
 
 -- Rocket League RLCS 2026 - Team Vitality (3 jugadores)
 INSERT IGNORE INTO inscripciones (jugador_id, torneo_id, equipo_id, estado, fecha_inscripcion)
@@ -573,19 +681,19 @@ VALUES (76, 8, 15, 'CONFIRMADA', '2025-10-20'), -- Javititu (Español)
 
 -- Valorant Champions 2026 - KRU Esports (5 jugadores - Chilenos) - EN PROGRESO
 INSERT IGNORE INTO inscripciones (jugador_id, torneo_id, equipo_id, estado, fecha_inscripcion)
-VALUES (79, 9, 16, 'CONFIRMADA', '2026-01-20'), -- Mazino
-       (80, 9, 16, 'CONFIRMADA', '2026-01-20'), -- Klaus
-       (81, 9, 16, 'CONFIRMADA', '2026-01-20'), -- Shyy
-       (82, 9, 16, 'CONFIRMADA', '2026-01-20'), -- Daveeys
-       (83, 9, 16, 'CONFIRMADA', '2026-01-20'); -- Delz1k
+VALUES (79, 4, 16, 'CONFIRMADA', '2026-01-20'), -- Mazino
+       (80, 4, 16, 'CONFIRMADA', '2026-01-20'), -- Klaus
+       (81, 4, 16, 'CONFIRMADA', '2026-01-20'), -- Shyy
+       (82, 4, 16, 'CONFIRMADA', '2026-01-20'), -- Daveeys
+       (83, 4, 16, 'CONFIRMADA', '2026-01-20'); -- Delz1k
 
 -- Valorant Champions 2026 - Team Heretics (5 jugadores - Españoles) - EN PROGRESO
 INSERT IGNORE INTO inscripciones (jugador_id, torneo_id, equipo_id, estado, fecha_inscripcion)
-VALUES (84, 9, 17, 'CONFIRMADA', '2026-01-20'), -- mixwell
-       (85, 9, 17, 'CONFIRMADA', '2026-01-20'), -- AvovA
-       (86, 9, 17, 'CONFIRMADA', '2026-01-20'), -- Boo
-       (87, 9, 17, 'CONFIRMADA', '2026-01-20'), -- Wo0t
-       (88, 9, 17, 'CONFIRMADA', '2026-01-20'); -- Benjyfishy
+VALUES (84, 4, 17, 'CONFIRMADA', '2026-01-20'), -- mixwell
+       (85, 4, 17, 'CONFIRMADA', '2026-01-20'), -- AvovA
+       (86, 4, 17, 'CONFIRMADA', '2026-01-20'), -- Boo
+       (87, 4, 17, 'CONFIRMADA', '2026-01-20'), -- Wo0t
+       (88, 4, 17, 'CONFIRMADA', '2026-01-20'); -- Benjyfishy
 
 -- =====================================================
 -- RESULTADOS
@@ -624,5 +732,5 @@ VALUES (7, 8, 1, 2800), -- STMN Esports - Campeones
 
 -- Valorant Champions 2026 - EN PROGRESO (Top 2 parcial)
 INSERT IGNORE INTO resultados (equipo_id, torneo_id, posicion, puntuacion)
-VALUES (17, 9, 1, 1420), -- Team Heretics (Españoles)
-       (16, 9, 2, 1350); -- KRU Esports (Chilenos)
+VALUES (17, 4, 1, 1420), -- Team Heretics (Españoles)
+       (16, 4, 2, 1350); -- KRU Esports (Chilenos)

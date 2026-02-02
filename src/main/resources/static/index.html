@@ -298,6 +298,30 @@
             flex: 1;
         }
 
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(108, 99, 255, 0.3);
+        }
+
+        .filter-bar input {
+            padding: 0.5rem;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .filter-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -487,7 +511,17 @@
             <div class="section">
                 <h2>📋 Lista de Juegos</h2>
                 <div class="search-bar">
-                    <input type="text" id="search-juegos" placeholder="🔍 Buscar juegos..." onkeyup="filterJuegos()">
+                    <input type="text" id="search-juegos" placeholder="🔍 Buscar por nombre..." onkeyup="filterJuegos()">
+                </div>
+                <div class="filter-bar">
+                    <div class="form-group" style="display: inline-block; margin-right: 10px;">
+                        <input type="text" id="filter-desarrollador" placeholder="Desarrollador" style="width: 200px;">
+                    </div>
+                    <div class="form-group" style="display: inline-block; margin-right: 10px;">
+                        <input type="text" id="filter-genero" placeholder="Género" style="width: 200px;">
+                    </div>
+                    <button class="btn btn-primary" onclick="buscarJuegosAvanzado()">🔍 Buscar</button>
+                    <button class="btn btn-secondary" onclick="limpiarFiltrosJuegos()">🔄 Limpiar</button>
                 </div>
                 <div id="juegos-list" class="loading">Cargando...</div>
                 <div class="pagination" id="juegos-pagination"></div>
@@ -668,19 +702,15 @@
                     <input type="hidden" id="resultado-editando">
                     <div class="form-group">
                         <label>Torneo *</label>
-                        <select id="resultado-torneo" required onchange="loadRanking()">
+                        <select id="resultado-torneo" required onchange="loadEquiposForResultado()">
                             <option value="">Seleccione un torneo</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Equipo *</label>
+                        <label id="resultado-equipo-label">Equipo / Jugador *</label>
                         <select id="resultado-equipo" required>
-                            <option value="">Seleccione un equipo</option>
+                            <option value="">Primero seleccione un torneo</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Posición *</label>
-                        <input type="number" id="resultado-posicion" min="1" required>
                     </div>
                     <div class="form-group">
                         <label>Puntuación *</label>
@@ -776,7 +806,7 @@
 
                 if (!response.ok) {
                     const error = await response.json();
-                    throw new Error(error.message || 'Error en la petición');
+                    throw new Error(error.mensaje || error.message || 'Error en la petición');
                 }
 
                 if (response.status === 204) {
@@ -908,20 +938,20 @@
 
         // ==================== PAGINACIÓN ====================
         let pageInfo = {
-            juegos: { current: 0, total: 0 },
-            torneos: { current: 0, total: 0 },
-            equipos: { current: 0, total: 0 },
-            jugadores: { current: 0, total: 0 }
+            juegos: { current: 0, total: 0, callback: null },
+            torneos: { current: 0, total: 0, callback: null },
+            equipos: { current: 0, total: 0, callback: null },
+            jugadores: { current: 0, total: 0, callback: null }
         };
 
-        function renderPagination(type, currentPage, totalPages) {
+        function renderPagination(type, currentPage, totalPages, customCallback = null) {
             const paginationDiv = document.getElementById(`${type}-pagination`);
             if (totalPages <= 1) {
                 paginationDiv.innerHTML = '';
                 return;
             }
 
-            pageInfo[type] = { current: currentPage, total: totalPages };
+            pageInfo[type] = { current: currentPage, total: totalPages, callback: customCallback };
 
             let html = `
                 <button onclick="changePage('${type}', 0)" ${currentPage === 0 ? 'disabled' : ''}>⏮️ Primera</button>
@@ -934,6 +964,13 @@
         }
 
         function changePage(type, newPage) {
+            // Si hay un callback personalizado, usarlo
+            if (pageInfo[type].callback) {
+                pageInfo[type].callback(newPage);
+                return;
+            }
+
+            // Comportamiento por defecto
             switch(type) {
                 case 'juegos':
                     currentPage = newPage;
@@ -1193,6 +1230,40 @@
         function resetJuegoForm() {
             document.getElementById('juego-form').reset();
             document.getElementById('juego-id').value = '';
+        }
+
+        async function buscarJuegosAvanzado(page = 0) {
+            const desarrollador = document.getElementById('filter-desarrollador').value.trim();
+            const genero = document.getElementById('filter-genero').value.trim();
+
+            if (!desarrollador && !genero) {
+                showMessage('Debe ingresar al menos un filtro (desarrollador o género)', 'error');
+                return;
+            }
+
+            try {
+                let url = `/juegos/buscar?page=${page}&size=${pageSize}`;
+                if (desarrollador) url += `&desarrollador=${encodeURIComponent(desarrollador)}`;
+                if (genero) url += `&genero=${encodeURIComponent(genero)}`;
+
+                const data = await apiCall(url);
+                allJuegos = data.content;
+                displayJuegos(allJuegos);
+                renderPagination('juegos', data.number, data.totalPages, () => buscarJuegosAvanzado);
+
+                if (data.content.length === 0) {
+                    showMessage('No se encontraron juegos con los criterios especificados', 'info');
+                }
+            } catch (error) {
+                document.getElementById('juegos-list').innerHTML = '<p class="alert alert-error">Error al buscar juegos</p>';
+            }
+        }
+
+        function limpiarFiltrosJuegos() {
+            document.getElementById('filter-desarrollador').value = '';
+            document.getElementById('filter-genero').value = '';
+            document.getElementById('search-juegos').value = '';
+            loadJuegos();
         }
 
         // ==================== TORNEOS ====================
@@ -1553,8 +1624,8 @@
                                         <select onchange="cambiarEstadoInscripcion(${ins.jugadorId}, ${ins.torneoId}, this.value)">
                                             <option value="">Cambiar estado</option>
                                             <option value="CONFIRMADA">CONFIRMADA</option>
-                                            <option value="PENDIENTE">PENDIENTE</option>
-                                            <option value="CANCELADA">CANCELADA</option>
+                                            <option value="ELIMINADA">ELIMINADA</option>
+                                            <option value="FINALIZADA">FINALIZADA</option>
                                         </select>
                                         <button class="btn btn-danger btn-small" onclick="deleteInscripcion(${ins.jugadorId}, ${ins.torneoId})">🗑️</button>
                                     </td>
@@ -1626,13 +1697,85 @@
         }
 
         async function loadEquiposForResultado() {
+            const torneoId = document.getElementById('resultado-torneo').value;
+            const select = document.getElementById('resultado-equipo');
+
+            if (!torneoId) {
+                select.innerHTML = '<option value="">Primero seleccione un torneo</option>';
+                return;
+            }
+
             try {
-                const data = await apiCall('/equipos?page=0&size=100');
-                const select = document.getElementById('resultado-equipo');
-                select.innerHTML = '<option value="">Seleccione un equipo</option>' +
-                    data.content.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('');
+                // Obtener información del torneo
+                const torneo = await apiCall(`/torneos/${torneoId}`);
+
+                // Obtener inscripciones del torneo
+                const inscripciones = await apiCall(`/inscripciones/torneo/${torneoId}?page=0&size=200`);
+
+                // Si es torneo individual (1 miembro por equipo)
+                if (torneo.miembrosPorEquipo === 1) {
+                    // Necesitamos crear equipos individuales para cada jugador inscrito sin equipo
+                    // Primero intentamos obtener todos los equipos
+                    const equiposData = await apiCall('/equipos?page=0&size=200');
+                    const equiposExistentes = new Map(equiposData.content.map(e => [e.nombre, e.id]));
+
+                    const opciones = [];
+
+                    for (const inscripcion of inscripciones.content) {
+                        if (!inscripcion.equipoId) {
+                            // Jugador sin equipo - necesita equipo individual
+                            const nombreEquipo = inscripcion.jugadorNickname;
+
+                            // Verificar si ya existe un equipo con ese nombre
+                            if (equiposExistentes.has(nombreEquipo)) {
+                                opciones.push(`<option value="${equiposExistentes.get(nombreEquipo)}">${nombreEquipo}</option>`);
+                            } else {
+                                // Crear equipo individual automáticamente
+                                try {
+                                    const nuevoEquipo = await apiCall('/equipos', {
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                            nombre: nombreEquipo,
+                                            logo: '🎮',
+                                            pais: inscripcion.jugadorNickname
+                                        })
+                                    });
+                                    opciones.push(`<option value="${nuevoEquipo.id}">${nuevoEquipo.nombre}</option>`);
+                                    equiposExistentes.set(nombreEquipo, nuevoEquipo.id);
+                                } catch (error) {
+                                    console.error('Error creando equipo individual:', error);
+                                }
+                            }
+                        } else {
+                            // Ya tiene equipo
+                            if (!opciones.find(o => o.includes(`value="${inscripcion.equipoId}"`))) {
+                                opciones.push(`<option value="${inscripcion.equipoId}">${inscripcion.equipoNombre}</option>`);
+                            }
+                        }
+                    }
+
+                    select.innerHTML = '<option value="">Seleccione un jugador</option>' + opciones.join('');
+                } else {
+                    // Torneo por equipos - mostrar solo equipos inscritos
+                    const equiposInscritos = new Set();
+                    const opciones = [];
+
+                    inscripciones.content.forEach(ins => {
+                        if (ins.equipoId && !equiposInscritos.has(ins.equipoId)) {
+                            equiposInscritos.add(ins.equipoId);
+                            opciones.push(`<option value="${ins.equipoId}">${ins.equipoNombre}</option>`);
+                        }
+                    });
+
+                    select.innerHTML = '<option value="">Seleccione un equipo</option>' + opciones.join('');
+                }
+
+                // Cargar el ranking después de cargar los equipos
+                loadRanking();
+
             } catch (error) {
-                // Error ya mostrado
+                select.innerHTML = '<option value="">Error al cargar equipos</option>';
+                console.error('Error en loadEquiposForResultado:', error);
             }
         }
 
@@ -1670,7 +1813,7 @@
                                     <td>${res.equipoNombre}</td>
                                     <td>${res.puntuacion || '-'}</td>
                                     <td>
-                                        <button class="btn btn-warning btn-small" onclick="editResultado(${res.equipoId}, ${res.torneoId}, ${res.posicion}, ${res.puntuacion})">✏️ Editar</button>
+                                        <button class="btn btn-warning btn-small" onclick="editResultado(${res.equipoId}, ${res.torneoId}, ${res.puntuacion})">✏️ Editar</button>
                                         <button class="btn btn-danger btn-small" onclick="deleteResultado(${res.equipoId}, ${res.torneoId})">🗑️ Eliminar</button>
                                     </td>
                                 </tr>
@@ -1690,7 +1833,6 @@
             const data = {
                 equipoId: parseInt(document.getElementById('resultado-equipo').value),
                 torneoId: parseInt(document.getElementById('resultado-torneo').value),
-                posicion: parseInt(document.getElementById('resultado-posicion').value),
                 puntuacion: parseInt(document.getElementById('resultado-puntuacion').value)
             };
 
@@ -1712,11 +1854,10 @@
             }
         });
 
-        function editResultado(equipoId, torneoId, posicion, puntuacion) {
+        function editResultado(equipoId, torneoId, puntuacion) {
             document.getElementById('resultado-editando').value = 'true';
             document.getElementById('resultado-equipo').value = equipoId;
             document.getElementById('resultado-torneo').value = torneoId;
-            document.getElementById('resultado-posicion').value = posicion;
             document.getElementById('resultado-puntuacion').value = puntuacion;
 
             // Cambiar título del formulario
