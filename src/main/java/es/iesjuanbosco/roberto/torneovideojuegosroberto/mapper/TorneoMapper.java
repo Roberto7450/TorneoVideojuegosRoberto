@@ -3,6 +3,7 @@ package es.iesjuanbosco.roberto.torneovideojuegosroberto.mapper;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.request.TorneoRequestDTO;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.response.JuegoSimpleDTO;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.dto.response.TorneoResponseDTO;
+import es.iesjuanbosco.roberto.torneovideojuegosroberto.entity.Juego;
 import es.iesjuanbosco.roberto.torneovideojuegosroberto.entity.Torneo;
 import org.mapstruct.*;
 
@@ -30,5 +31,5 @@ public interface TorneoMapper {
     void updateEntityFromDTO(TorneoRequestDTO dto, @MappingTarget Torneo torneo);
 
     // Método auxiliar para convertir Juego a JuegoSimpleDTO
-    JuegoSimpleDTO juegoToSimpleDTO(es.iesjuanbosco.roberto.torneovideojuegosroberto.entity.Juego juego);
+    JuegoSimpleDTO juegoToSimpleDTO(Juego juego);
 }
